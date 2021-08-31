@@ -9,22 +9,22 @@ const selectionSort = arr => {
     // for loop to iterate through the total number of passes
     for (let i = 0; i < arr.length; i++) {
         
-        // checking agains tthe value at position max (starts at 0)
-        let max = 0;
+        // checking against the value at position max (starts at 0)
+        let maxIndex = 0;
 
         // for loop to check if any values are greater than the first
         for (let j = 1; j < arr.length - i; j++) {
             
             // check if value is bigger than max
-            if (arr[j] > arr[max]){
+            if (arr[j] > arr[maxIndex]){
 
-                // set max to the value of that position
-                max = j;
+                // set maxIndex to the value of that position
+                maxIndex = j;
             }
 
         }
-        // swap end position with max
-        [arr[max], arr[arr.length - 1 - i]] = [arr[arr.length - 1 - i], arr[max]];
+        // swap end position with maxIndex
+        [arr[maxIndex], arr[arr.length - 1 - i]] = [arr[arr.length - 1 - i], arr[maxIndex]];
     }
 
     // returns the original array
