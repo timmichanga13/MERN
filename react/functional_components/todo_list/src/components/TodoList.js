@@ -2,37 +2,82 @@ import React, { useState } from 'react';
 
 const TodoList = () => {
 
-    const [todo, setTodo] = useState("");
-    const [hasBeenCompleted, setHasBeenCompleted] = useState(false);
+    const [newTodo, setNewTodo] = useState("");
+    const [todoList, setTodoList] = useState([]);
+
+    const todoItem = {
+        todo: newTodo,
+        isComplete: false
+    }
 
     const createTodo = (e) => {
         e.preventDefault();
-        const newTodo = { todo, hasBeenCompleted };
+        if (newTodo.length === 0) {
+            return;
+        }
+        setTodoList([...todoList, todoItem]);
+        setNewTodo("");
     };
 
+    const deleteTodo = (index) => {
+        const filteredTodoList = todoList.filter((todo, i) => {
+            return i !== index;
+        });
+        setTodoList(filteredTodoList);
+    }
 
+    const completeTodo = (index) => {
+        const updatedTodoList = todoList.map((todo, i) => {
+            if (index === i) {
+                // changes state directly, best practice to avoid
+                // todo.isComplete = !todo.isComplete;
 
-    
+                // create a new state instead, return updatedTodo
+                const updatedTodo = { ...todo, isComplete: !todo.isComplete };
+                return updatedTodo
+            }
+            return todo;
+        });
+        setTodoList(updatedTodoList)
+    }
+
     return (
         <div class="container">
 
-
+            <h1>Add Something Todo</h1>
             <form onSubmit={createTodo}>
                 <div>
-                    <label>Add something Todo: </label>
-                    <input type="text" onChange={(e) => setTodo(e.target.value)} value={todo} />
-                    {
-                        todo.length < 3 && todo.length != 0 ?
-                            <p style={{ color: 'red' }}>The first thing you must do is make sure your Todo is at least 3 characters!</p> :
-                            ''
-                    }
+                    <input type="text" onChange={(e) => setNewTodo(e.target.value)} value={newTodo} />
+                    <input type="submit" value="Add" />
                 </div>
-                <input type="submit" value="Create Todo" />
             </form>
+
+
             <h2>Your Todo List:</h2>
             <ul>
-                {TodoList.map((todo, i) =>
-                    <li key={i}>{todo}</li>)}
+                {todoList.map((todo, index) => {
+
+                    const todoClasses = [];
+                    if (todo.isComplete) {
+                        todoClasses.push("line-through");
+                    }
+
+                    return <div key={index}>
+                        <li>
+                            {/* if completed, change text style to strikethru */}
+                            <span className={todoClasses.join(" ")}>{todo.todo}</span>
+
+                            {/* when checkbox is checked, change completed to true */}
+                            <input style={{ marginLeft: "1em" }} type="checkbox" onChange={(e) => { completeTodo(index) }} checked={todo.complete}></input>
+
+                            {/* if checked as completed, show delete button */}
+                            {todo.isComplete ? <button style={{ marginLeft: "1em" }} onClick={(e) => { deleteTodo(index) }}>Delete</button> : ""}
+
+                        </li>
+
+                    </div>
+                }
+                )}
             </ul>
 
 
