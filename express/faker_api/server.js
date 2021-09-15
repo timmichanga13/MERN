@@ -59,5 +59,13 @@ app.get("/api/companies/new", (req, res) => {
     res.json({data: newComp});
 });
 
+app.get("/api/user/company", (req, res) => {
+    let newUser = new User();
+    users.push(newUser);
+    let newComp = new Company();
+    companies.push(newComp);
+    res.json({user: newUser, company: newComp});
+})
+
 // this needs to below the other code blocks
 app.listen(port, () => console.log(`Listening on port: ${port}`));
