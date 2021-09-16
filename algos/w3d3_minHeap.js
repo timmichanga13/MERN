@@ -13,6 +13,7 @@ class MinHeap {
         this.heap = [null];
     }
 
+    // adds a value to the heap and puts it in the correct location
     addValue(newValue){
         // push the new value to the heap
         this.heap.push(newValue);
@@ -27,8 +28,40 @@ class MinHeap {
         }
         return this;
     }
+
+    // removes first number (index 1) and restructures tree to make sure everything still works
+    removeValue(){
+        // swap the last element in the heap with the first
+        [this.heap[1], this.heap[this.heap.length - 1]] = [this.heap[this.heap.length - 1], this.heap[1]];
+
+        // remove teh last element
+        this.heap.pop();
+
+        // estavblish starting index to check
+        let currentIndex = 1;
+        // while loop to run if the current index is greater than the left or right child
+        while(((this.heap[currentIndex] > this.heap[2 * currentIndex]) || (this.heap[currentIndex] > this.heap[2 * currentIndex + 1]))){
+            // check if the left child or right child is smaller, swap with the smaller child (smaller number has to be above larger number)
+            if(this.heap[2 * currentIndex] < this.heap[2 * currentIndex + 1]){
+                // if left child is smaller, swap with left
+                [this.heap[currentIndex], this.heap[2 * currentIndex]] = [this.heap[2 * currentIndex], this.heap[currentIndex]];
+                // update the current index to check if we need to keep moving it
+                currentIndex = 2 * currentIndex;
+            }
+            // else the right child will be smaller, swap with right, update currentIndex
+            else {
+                [this.heap[currentIndex], this.heap[2 * currentIndex + 1]] = [this.heap[2 * currentIndex + 1], this.heap[currentIndex]];
+                currentIndex = 2 * currentIndex + 1;
+            }
+        }
+        return this;
+    }
+
 }
 
 let testHeap1 = new MinHeap();
 testHeap1.addValue(4).addValue(10).addValue(8).addValue(13).addValue(17).addValue(9).addValue(5).addValue(6).addValue(8);
 console.log(testHeap1);
+testHeap1.removeValue();
+console.log(testHeap1);
+
