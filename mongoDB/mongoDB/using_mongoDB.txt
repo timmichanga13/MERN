@@ -1,0 +1,36 @@
+use my_fisrt_db
+db.createCollection("students")
+
+db.students.insert({name: "Harold Ramis", home_state: "Georgia", lucky_number: 2, birthday: {month: 1, day: 1, year: 2001}})
+db.students.insert({name: "Candy Caine", home_state: "Connecticut", lucky_number: 7, birthday: {month: 11, day: 11, year: 2011}})
+db.students.insert({name: "Carol Krabit", home_state: "Wisconsin", lucky_number: 4, birthday: {month: 12, day: 12, year: 1912}})
+db.students.insert({name: "Bob Dole", home_state: "Alaska", lucky_number: 13, birthday: {month: 3, day: 4, year: 2005}})
+db.students.insert({name: "Savannah Mississippi", home_state: "Kansas", lucky_number: 256, birthday: {month: 9, day: 12, year: 1975}})
+
+db.students.find()
+db.students.find( { $or: [{home_state: "California"},{home_state: "Washington"}]})
+db.students.find({lucky_number:{$gt: 3}})
+db.students.find({lucky_number:{$lte: 10}})
+db.students.find({ $and: [{lucky_number:{$lte: 9}}, {lucky_number:{$gte: 1}}]})
+
+db.students.updateMany({}, {$set: {interests: ['coding', 'brunch', 'MongoDB']}})
+
+db.students.update({name: "Harold Ramis"}, {$push: {interests: 'cows'}})
+db.students.update({name: "Candy Caine"}, {$push: {interests: 'pigs'}})
+db.students.update({name: "Carol Krabit"}, {$push: {interests: 'chickens'}})
+db.students.update({name: "Bob Dole"}, {$push: {interests: 'horses'}})
+db.students.update({name: "Savannah Mississippi"}, {$push: {interests: 'donkeys'}})
+
+
+db.students.update({name: "Savannah Mississippi"}, {$push: {interests: 'taxes'}})
+db.students.update({name: "Savannah Mississippi"}, {$pull: {interests: 'taxes'}})
+
+db.students.remove({home_state: "California"})
+db.students.remove({name: "Bob Dole"})
+db.students.remove({lucky_number: {$gt: 5}}, true)
+
+db.students.updateMany({}, { $set: {number_of_belts: 0}})
+db.students.updateMany({home_state: "Washington"}, {$inc: {number_of_belts: 1}})
+db.students.updateMany({}, { $rename: {number_of_belts: belts_earned}})
+db.students.updateMany({}, { $unset: {lucky_number:""}})
+db.students.updateMany({}, { $currentDate: {updated_on: true}})
