@@ -15,7 +15,7 @@ module.exports = app => {
     app.get('/api/jokes/random', JokeController.findRandomJoke);
 
 
-    // routes that take specific info must come after ones that don't (random has to come before one)
+    // routes that take specific info must come after ones that don't (random has to come before one)? like the exact route from before, otherwise it thinks teh id is 'random'
 
 
 
