@@ -5,6 +5,31 @@
 // get the remainder for the binary digit
 // repeat the steps until the quotient is equal to 0
 
+
+// condensed version without modulo
+const decimalToBinaryCondensed= (num)=>{
+    // blank output
+    result="";
+    // while the valuse we are manipulating is greater than 0
+    while (num >= 0){
+        // push the binary digit to the front of the output (num - 2 * Math.floor(num / 2) will give the binary of 0 or 1)
+        result = (num - 2 * Math.floor(num / 2)) + result;
+        // break if we are at 0
+        if (num == 0){break};
+        // update the value we are manipulating
+        num = Math.floor(num / 2);
+    }
+    // convert the output to an integer just in case
+    return parseInt(result);
+}
+
+console.log(decimalToBinaryCondensed(13));
+console.log(decimalToBinaryCondensed(174));
+console.log(decimalToBinaryCondensed(2));
+console.log(decimalToBinaryCondensed(1));
+console.log(decimalToBinaryCondensed(0));
+
+
 const decimalToBinary = decimal => {
     // create blank output to store binary
     let output = '';
